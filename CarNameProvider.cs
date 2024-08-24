@@ -57,6 +57,9 @@ namespace RealCarNames
 
         public static string GetCarName(string gameName)
         {
+            if (!Main.enabled)
+                return gameName;
+
             if (!substitutionTable.ContainsKey(gameName))
             {
                 Main.Log("Couldn't find real name for car : " + gameName);
