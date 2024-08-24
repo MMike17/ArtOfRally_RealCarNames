@@ -1,66 +1,66 @@
-﻿1980 Alfa Romeo Alfetta Turbodelta
-1969 Alpine A110
-1977 Alpine A310
-1981 Audi quattro
-1986 Audi quattro RS 002
-1984 Audi Sport quattro RS 001
-1985 Audi Sport quattro S1
-1965 Austin Mini Cooper S
-1971 BMW 2002 Ti
-1981 BMW M1
-1987 BMW M3
-1980 Datsun 160J
-1971 Datsun 240Z
-1986 Ferrari 288 GTO Evoluzione
-1977 Ferrari 308 GTB
-1976 Fiat 131 Abarth
-1968 Ford Escort
-1977 Ford Escort
-1993 Ford Escort RS Cosworth
-1982 Ford Escort RS1700T
-1999 Ford Focus WRC
-1985 Ford RS200
-1987 Ford Sierra
-2015 Ford Transit
-1988 Honda Acty
-2006 KamAZ 4911
-1985 Lada Samara
-1984 Lancia 037 Rally
-1992 Lancia Delta
-1986 Lancia Delta S4
-1986 Lancia ECV
-1988 Lancia ECV 2
-1969 Lancia Fulvia Coupé
-1974 Lancia Stratos
-1975 Mazda RX-3
-1984 Mazda RX-7 Evo Group B
-1986 Mazda RX-7S
+﻿Alfa Romeo Alfetta Turbodelta (1980)
+Alpine A110 (1969)
+Alpine A310 (1977)
+Audi quattro (1981)
+Audi quattro RS 002 (1986)
+Audi Sport quattro RS 001 (1984)
+Audi Sport quattro S1 (1985)
+Austin Mini Cooper S (1965)
+BMW 2002 Ti (1971)
+BMW M1 (1981)
+BMW M3 (1987)
+Datsun 160J (1980)
+Datsun 240Z (1971)
+Ferrari 288 GTO Evoluzione (1986)
+Ferrari 308 GTB (1977)
+Fiat 131 Abarth (1976)
+Ford Escort (1968)
+Ford Escort (1977)
+Ford Escort RS Cosworth (1993)
+Ford Escort RS1700T (1982)
+Ford Focus WRC (1999)
+Ford RS200 (1985)
+Ford Sierra (1987)
+Ford Transit (2015)
+Honda Acty (1988)
+KamAZ 4911 (2006)
+Lada Samara (1985)
+Lancia 037 Rally (1984)
+Lancia Delta (1992)
+Lancia Delta S4 (1986)
+Lancia ECV (1986)
+Lancia ECV 2 (1988)
+Lancia Fulvia Coupé (1969)
+Lancia Stratos (1974)
+Mazda RX-3 (1975)
+Mazda RX-7 Evo Group B (1984)
+Mazda RX-7S (1986)
 MG Metro 6R4
-1999 Mitsubishi Lancer Evolution VI
-1983 Nissan 240RS
-1980 Opel Ascona 400
-1986 Opel Kadett
-1983 Opel Manta 400
-1985 Peugeot 205 Turbo 16
-1987 Peugeot 405 Turbo 16
+Mitsubishi Lancer Evolution VI (1999)
+Nissan 240RS (1983)
+Opel Ascona 400 (1980)
+Opel Kadett (1986)
+Opel Manta 400 (1983)
+Peugeot 205 Turbo 16 (1985)
+Peugeot 405 Turbo 16 (1987)
 Piaggio Ape
-1967 Porsche 911
-1978 Porsche 911 SC Safari
-1985 Porsche 959 Rally Raid
-1973 Renault 17
-1985 Renault 5 Maxi Turbo
-1980 Renault 5 Turbo
-1967 Renault 8 Gordini
-1988 Scania 113 H
-1975 Skoda 130 RS
-1974 Skoda 200 RS
-1997 Subaru Impreza WRC
-1985 Toyota 222D
-1993 Toyota Celica GT4
-1983 Toyota Celica Twin-Cam Turbo
-1985 Toyota Sprinter Trueno
-1975 Volkswagen LT
-1975 Volkswagen LT
-1985 Volkswagen LT
-1984 Volkswagen LT
-1986 Volvo 240 Turbo
+Porsche 911 (1967)
+Porsche 911 SC Safari (1978)
+Porsche 959 Rally Raid (1985)
+Renault 17 (1973)
+Renault 5 Maxi Turbo (1985)
+Renault 5 Turbo (1980)
+Renault 8 Gordini (1967)
+Scania 113 H (1988)
+Skoda 130 RS (1975)
+Skoda 200 RS (1974)
+Subaru Impreza WRC (1997)
+Toyota 222D (1985)
+Toyota Celica GT4 (1993)
+Toyota Celica Twin-Cam Turbo (1983)
+Toyota Sprinter Trueno (1985)
+Volkswagen LT (1975)
+Volkswagen LT (1975)
+Volkswagen LT (1985)
+Volkswagen LT (1984)
+Volvo 240 Turbo (1986)
