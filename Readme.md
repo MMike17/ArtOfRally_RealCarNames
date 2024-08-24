@@ -36,7 +36,7 @@ and drop it into the mod manager's mods page.
 
 ## Showcase
 
-![](Car selection.png)
+![]("Car selection.png")
 
 ![](Leaderboard.png)
 
