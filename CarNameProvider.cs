@@ -5,29 +5,28 @@ using System.Reflection;
 
 namespace RealCarNames
 {
-    public static class CarNameProvider
+    static class CarNameProvider
     {
         // embeded text files with names
         const string GAME_NAMES_FILE = "RealCarNames.GameNames.txt";
         const string REAL_NAMES_FILE = "RealCarNames.RealNames.txt";
 
-        static Dictionary<string, string> substitutionTable;
+        static List<string> gameNames;
+        static List<string> realNames;
 
         // called by Main
         public static void Init()
         {
-            string[] gameNames = GetNamesFromFile(GAME_NAMES_FILE);
-            string[] realNames = GetNamesFromFile(REAL_NAMES_FILE);
+            gameNames = GetNamesFromFile(GAME_NAMES_FILE);
+            realNames = GetNamesFromFile(REAL_NAMES_FILE);
 
-            substitutionTable = new Dictionary<string, string>();
-
-            for (int i = 0; i < gameNames.Length; i++)
-                substitutionTable.Add(gameNames[i], realNames[i]);
-
-            Main.Log("Loaded " + gameNames.Length + " car names");
+            if (gameNames.Count != realNames.Count)
+                Main.Log("Game names and real names list do not match, please check the lists of names for missing or duplicates.");
+            else
+                Main.Log("Loaded " + gameNames.Count + " car names");
         }
 
-        static string[] GetNamesFromFile(string fileName)
+        static List<string> GetNamesFromFile(string fileName)
         {
             List<string> gameNames = new List<string>();
 
@@ -53,21 +52,35 @@ namespace RealCarNames
                 }
             }
 
-            return gameNames.ToArray();
+            return gameNames;
         }
 
-        public static string GetCarName(string gameName)
+        public static string GetRealName(string carName)
         {
-            if (!Main.enabled)
-                return gameName;
+            int index = gameNames.IndexOf(carName);
 
-            if (!substitutionTable.ContainsKey(gameName))
-            {
-                Main.Log("Couldn't find real name for car : " + gameName);
-                return gameName;
-            }
+            if (index != -1)
+                return realNames[index];
+            else if (realNames.Contains(carName))
+                Main.Log("Name is already set to real variant.");
+            else
+                Main.Log("Couldn't find \"" + carName + "\" in the provided lists of names. Check the lists of car names.");
 
-            return substitutionTable[gameName];
+            return carName;
+        }
+
+        public static string GetGameName(string carName)
+        {
+            int index = realNames.IndexOf(carName);
+
+            if (index != -1)
+                return gameNames[index];
+            else if (gameNames.Contains(carName))
+                Main.Log("Name is already set to game variant.");
+            else
+                Main.Log("Couldn't find \"" + carName + "\" in the provided lists of names. Check the lists of car names.");
+
+            return carName;
         }
     }
 }
