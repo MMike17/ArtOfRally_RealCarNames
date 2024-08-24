@@ -1,9 +1,10 @@
 {
-    "Id": "RealCarNames",
-    "DisplayName": "Real car names",
-    "Author": "MMike17",
-    "Version": "0.1.0",
-    "GameVersion": "1.5,5",
-    "AssemblyName": "RealCarNames.dll",
-    "EntryMethod": "RealCarNames.Main.Load"
+	"Id": "RealCarNames",
+	"DisplayName": "Real car names",
+	"Author": "MMike17",
+	"Version": "1.0.0",
+	"GameVersion": "1.5,5",
+	"AssemblyName": "RealCarNames.dll",
+	"EntryMethod": "RealCarNames.Main.Load",
+	"Repository": "https://github.com/MMike17/ArtOfRally_RealCarNames"
 }
