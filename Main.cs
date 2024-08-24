@@ -1,5 +1,4 @@
 ﻿using UnityModManagerNet;
-using UnityEngine.SceneManagement;
 
 namespace RealCarNames
 {
@@ -7,8 +6,7 @@ namespace RealCarNames
     {
         public static UnityModManager.ModEntry.ModLogger Logger;
 
-        public static bool enabled { get; private set; }
-
+        // Everything Works So Far
         static int ewsfCount;
 
         // Called by the mod manager
@@ -17,17 +15,29 @@ namespace RealCarNames
             ewsfCount = 0;
             Logger = modEntry.Logger;
 
+            // hook in mod manager event
             modEntry.OnToggle = OnToggle;
 
             CarNameProvider.Init();
+            //SetCarNames(true); // enabled by default
 
             return true;
         }
 
         static bool OnToggle(UnityModManager.ModEntry modEntry, bool state)
         {
-            enabled = state;
+            SetCarNames(state);
             return true;
+        }
+
+        static void SetCarNames(bool realNames)
+        {
+            CarManager.AllCarsList.ForEach(car =>
+            {
+                car.name = realNames ? CarNameProvider.GetRealName(car.name) : CarNameProvider.GetGameName(car.name);
+            });
+
+            Log("Setting names to " + (realNames ? "real" : "original") + " variants.");
         }
 
         public static void LogEwSF()
