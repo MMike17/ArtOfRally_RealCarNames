@@ -17,19 +17,11 @@ namespace RealCarNames
             ewsfCount = 0;
             Logger = modEntry.Logger;
 
-            HookEvents(modEntry);
+            modEntry.OnToggle = OnToggle;
 
             CarNameProvider.Init();
 
             return true;
-        }
-
-        static void HookEvents(UnityModManager.ModEntry modEntry)
-        {
-            modEntry.OnToggle = OnToggle;
-
-            // scout scene names
-            SceneManager.sceneLoaded += (scene, mode) => Log("Changed scene : " + scene.name + " / " + scene.buildIndex);
         }
 
         static bool OnToggle(UnityModManager.ModEntry modEntry, bool state)

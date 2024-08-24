@@ -7,6 +7,7 @@ namespace RealCarNames
 {
     public static class CarNameProvider
     {
+        // embeded text files with names
         const string GAME_NAMES_FILE = "RealCarNames.GameNames.txt";
         const string REAL_NAMES_FILE = "RealCarNames.RealNames.txt";
 
@@ -23,7 +24,7 @@ namespace RealCarNames
             for (int i = 0; i < gameNames.Length; i++)
                 substitutionTable.Add(gameNames[i], realNames[i]);
 
-            Main.Log("Init names provider");
+            Main.Log("Loaded " + gameNames.Length + " car names");
         }
 
         static string[] GetNamesFromFile(string fileName)
