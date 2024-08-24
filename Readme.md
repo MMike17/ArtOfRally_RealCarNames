@@ -22,20 +22,21 @@ A mod for Art of Rally replacing the name of cars in menus with their real count
 
 ## Usage
 
-Press `CTRL + F10` to bring up the mod menu. Click on the "Real car names" to enable/disable.
+Press `CTRL + F10` to bring up the mod menu.
+Click on the "Real car names" to enable/disable.
 If the mod is disabled, the regular game names are displayed.
+Menus displaying car names might need to get closed/refreshed to take changes into account.
 
 ## Installation
 
 Follow the [installation guide](https://www.nexusmods.com/site/mods/21/) of
 the Unity Mod Manager.
-
 Then simply download the [latest release](https://github.com/MMike17/ArtOfRally_RealCarNames/releases/latest)
 and drop it into the mod manager's mods page.
 
 ## Showcase
 
-<!-- [![](thumbnail.png)](https://www.youtube.com/watch?v=2-Leem4fPRk) -->
+![](thumbnail.png)
 
 ## Acknowledgments
 
