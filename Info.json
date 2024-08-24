@@ -1,0 +1,9 @@
+{
+    "Id": "RealCarNames",
+    "DisplayName": "Real car names",
+    "Author": "MMike17",
+    "Version": "0.1.0",
+    "GameVersion": "1.5,5",
+    "AssemblyName": "RealCarNames.dll",
+    "EntryMethod": "RealCarNames.Main.Load"
+}
