@@ -36,3 +36,9 @@ and drop it into the mod manager's mods page.
 ## Showcase
 
 <!-- [![](thumbnail.png)](https://www.youtube.com/watch?v=2-Leem4fPRk) -->
+
+## Acknowledgments
+
+- Thanks to [Theaninova](https://github.com/Theaninova) who's mods I've used as a base layer.
+- Thanks to [Nexus Mod Manager](https://wiki.nexusmods.com/index.php/How_to_create_mod_for_unity_game) for the tutorial on how to make mods for UnityModManager.
+- Thanks to [IGCD.net](https://igcd.net/game.php?id=1000013286) for the real names of the cars.
