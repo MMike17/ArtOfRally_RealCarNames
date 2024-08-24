@@ -1,4 +1,7 @@
-﻿using UnityModManagerNet;
+﻿using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityModManagerNet;
 
 namespace RealCarNames
 {
@@ -32,9 +35,16 @@ namespace RealCarNames
 
         static void SetCarNames(bool realNames)
         {
+            List<TMP_Text> displays = new List<TMP_Text>(Object.FindObjectsOfType<TMP_Text>());
+
             CarManager.AllCarsList.ForEach(car =>
             {
+                TMP_Text currentDisplay = displays.Find(item => item.text.Contains(car.name)); // just in case
                 car.name = realNames ? CarNameProvider.GetRealName(car.name) : CarNameProvider.GetGameName(car.name);
+
+                // display refresh
+                if (currentDisplay != null)
+                    currentDisplay.text = car.name;
             });
 
             Log("Setting names to " + (realNames ? "real" : "original") + " variants.");
