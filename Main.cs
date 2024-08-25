@@ -50,9 +50,9 @@ namespace RealCarNames
                 string original = car.name;
 
                 List<Text> currentDisplays = displays.FindAll(display => display.text.Contains(car.name));
-                car.name = realNames ? CarNameProvider.GetRealName(car.name) : CarNameProvider.GetGameName(car.name);
+                car.name = CarNameProvider.SwitchName(car.name, realNames);
 
-                // display refresh
+                // displays refresh
                 currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
             });
 

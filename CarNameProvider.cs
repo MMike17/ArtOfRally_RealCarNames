@@ -58,32 +58,20 @@ namespace RealCarNames
             return gameNames;
         }
 
-        public static string GetRealName(string carName)
+        public static string SwitchName(string carName, bool toReal)
         {
-            int index = gameNames.IndexOf(carName);
+            List<string> source = toReal ? gameNames : realNames;
+            List<string> target = toReal ? realNames : gameNames;
 
-            if (index != -1)
-                return realNames[index];
-            else if (realNames.Contains(carName))
-                Main.Log("Name is already set to real variant.");
-            else
-                Main.Log("Couldn't find \"" + carName + "\" in the provided lists of names. Check the lists of car names.");
+            if (!source.Contains(carName))
+            {
+                if (target.Contains(carName))
+                    Main.Log("Name is already set to " + (toReal ? "real" : "game") + " variant.");
+                else
+                    Main.Log("Couldn't find \"" + carName + "\" in the provided lists of names. Check the lists of car names.");
+            }
 
-            return carName;
-        }
-
-        public static string GetGameName(string carName)
-        {
-            int index = realNames.IndexOf(carName);
-
-            if (index != -1)
-                return gameNames[index];
-            else if (gameNames.Contains(carName))
-                Main.Log("Name is already set to game variant.");
-            else
-                Main.Log("Couldn't find \"" + carName + "\" in the provided lists of names. Check the lists of car names.");
-
-            return carName;
+            return target[source.IndexOf(carName)];
         }
 
         public static string ReplaceName(string description)
