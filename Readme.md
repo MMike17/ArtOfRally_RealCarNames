@@ -25,7 +25,6 @@ A mod for Art of Rally replacing the name of cars in menus with their real count
 Press `CTRL + F10` to bring up the mod menu.
 Click on the "Real car names" to enable/disable.
 If the mod is disabled, the regular game names are displayed.
-Menus displaying car names might need to get closed/refreshed to take changes into account.
 
 ## Installation
 
