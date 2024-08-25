@@ -1,66 +1,66 @@
-﻿Alfa Romeo Alfetta Turbodelta (1980)
-Alpine A110 (1969)
-Alpine A310 (1977)
-Audi quattro (1981)
-Audi quattro RS 002 (1986)
-Audi Sport quattro RS 001 (1984)
-Audi Sport quattro S1 (1985)
-Austin Mini Cooper S (1965)
-BMW 2002 Ti (1971)
-BMW M1 (1981)
-BMW M3 (1987)
-Datsun 160J (1980)
-Datsun 240Z (1971)
-Ferrari 288 GTO Evoluzione (1986)
-Ferrari 308 GTB (1977)
-Fiat 131 Abarth (1976)
-Ford Escort (1968)
-Ford Escort (1977)
-Ford Escort RS Cosworth (1993)
-Ford Escort RS1700T (1982)
-Ford Focus WRC (1999)
-Ford RS200 (1985)
-Ford Sierra (1987)
-Ford Transit (2015)
-Honda Acty (1988)
-KamAZ 4911 (2006)
-Lada Samara (1985)
-Lancia 037 Rally (1984)
-Lancia Delta (1992)
-Lancia Delta S4 (1986)
-Lancia ECV (1986)
-Lancia ECV 2 (1988)
-Lancia Fulvia Coupé (1969)
-Lancia Stratos (1974)
-Mazda RX-3 (1975)
-Mazda RX-7 Evo Group B (1984)
-Mazda RX-7S (1986)
+﻿Alfa Romeo Alfetta Turbodelta
+Alpine A110
+Alpine A310
+Audi quattro
+Audi quattro RS 002
+Audi Sport quattro RS 001
+Audi Sport quattro S1
+Austin Mini Cooper S
+BMW 2002 Ti
+BMW M1
+BMW M3
+Datsun 160J
+Datsun 240Z
+Ferrari 288 GTO Evoluzione
+Ferrari 308 GTB
+Fiat 131 Abarth
+Ford Escort
+Ford Escort
+Ford Escort RS Cosworth
+Ford Escort RS1700T
+Ford Focus WRC
+Ford RS200
+Ford Sierra
+Ford Transit
+Honda Acty
+KamAZ 4911
+Lada Samara
+Lancia 037 Rally
+Lancia Delta
+Lancia Delta S4
+Lancia ECV
+Lancia ECV 2
+Lancia Fulvia Coupé
+Lancia Stratos
+Mazda RX-3
+Mazda RX-7 Evo Group B
+Mazda RX-7S
 MG Metro 6R4
-Mitsubishi Lancer Evolution VI (1999)
-Nissan 240RS (1983)
-Opel Ascona 400 (1980)
-Opel Kadett (1986)
-Opel Manta 400 (1983)
-Peugeot 205 Turbo 16 (1985)
-Peugeot 405 Turbo 16 (1987)
+Mitsubishi Lancer Evolution VI
+Nissan 240RS
+Opel Ascona 400
+Opel Kadett
+Opel Manta 400
+Peugeot 205 Turbo 16
+Peugeot 405 Turbo 16
 Piaggio Ape
-Porsche 911 (1967)
-Porsche 911 SC Safari (1978)
-Porsche 959 Rally Raid (1985)
-Renault 17 (1973)
-Renault 5 Maxi Turbo (1985)
-Renault 5 Turbo (1980)
-Renault 8 Gordini (1967)
-Scania 113 H (1988)
-Skoda 130 RS (1975)
-Skoda 200 RS (1974)
-Subaru Impreza WRC (1997)
-Toyota 222D (1985)
-Toyota Celica GT4 (1993)
-Toyota Celica Twin-Cam Turbo (1983)
-Toyota Sprinter Trueno (1985)
-Volkswagen LT (1975)
-Volkswagen LT (1975)
-Volkswagen LT (1985)
-Volkswagen LT (1984)
-Volvo 240 Turbo (1986)
+Porsche 911
+Porsche 911 SC Safari
+Porsche 959 Rally Raid
+Renault 17
+Renault 5 Maxi Turbo
+Renault 5 Turbo
+Renault 8 Gordini
+Scania 113 H
+Skoda 130 RS
+Skoda 200 RS
+Subaru Impreza WRC
+Toyota 222D
+Toyota Celica GT4
+Toyota Celica Twin-Cam Turbo
+Toyota Sprinter Trueno
+Volkswagen LT
+Volkswagen LT
+Volkswagen LT
+Volkswagen LT
+Volvo 240 Turbo

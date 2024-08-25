@@ -10,15 +10,18 @@ namespace RealCarNames
         // embeded text files with names
         const string GAME_NAMES_FILE = "RealCarNames.GameNames.txt";
         const string REAL_NAMES_FILE = "RealCarNames.RealNames.txt";
+        const string YEARS_FILE = "RealCarNames.Years.txt";
 
         static List<string> gameNames;
         static List<string> realNames;
+        static List<string> years;
 
         // called by Main
         public static void Init()
         {
-            gameNames = GetNamesFromFile(GAME_NAMES_FILE);
-            realNames = GetNamesFromFile(REAL_NAMES_FILE);
+            gameNames = GetLinesFromFile(GAME_NAMES_FILE);
+            realNames = GetLinesFromFile(REAL_NAMES_FILE);
+            years = GetLinesFromFile(YEARS_FILE);
 
             if (gameNames.Count != realNames.Count)
                 Main.Log("Game names and real names list do not match, please check the lists of names for missing or duplicates.");
@@ -26,7 +29,7 @@ namespace RealCarNames
                 Main.Log("Loaded " + gameNames.Count + " car names");
         }
 
-        static List<string> GetNamesFromFile(string fileName)
+        static List<string> GetLinesFromFile(string fileName)
         {
             List<string> gameNames = new List<string>();
 
