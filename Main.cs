@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using HarmonyLib;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine.UI;
 using UnityModManagerNet;
+
+using Object = UnityEngine.Object;
 
 namespace RealCarNames
 {
     public class Main
     {
+        public static bool enabled { get; private set; }
+
         public static UnityModManager.ModEntry.ModLogger Logger;
 
         // Everything Works So Far
@@ -18,17 +23,20 @@ namespace RealCarNames
             ewsfCount = 0;
             Logger = modEntry.Logger;
 
+            Harmony harmony = new Harmony(modEntry.Info.Id);
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+
             // hook in mod manager event
             modEntry.OnToggle = OnToggle;
 
             CarNameProvider.Init();
-            //SetCarNames(true); // enabled by default
 
             return true;
         }
 
         static bool OnToggle(UnityModManager.ModEntry modEntry, bool state)
         {
+            enabled = state;
             SetCarNames(state);
             return true;
         }
@@ -39,12 +47,13 @@ namespace RealCarNames
 
             CarManager.AllCarsList.ForEach(car =>
             {
-                Text currentDisplay = displays.Find(item => item.text.Contains(car.name)); // just in case
+                string original = car.name;
+
+                List<Text> currentDisplays = displays.FindAll(display => display.text.Contains(car.name));
                 car.name = realNames ? CarNameProvider.GetRealName(car.name) : CarNameProvider.GetGameName(car.name);
 
                 // display refresh
-                if (currentDisplay != null)
-                    currentDisplay.text = car.name;
+                currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
             });
 
             Log("Setting names to " + (realNames ? "real" : "original") + " variants.");
@@ -57,5 +66,17 @@ namespace RealCarNames
         }
 
         public static void Log(string message) => Logger.Log(message);
+    }
+
+    [HarmonyPatch(typeof(Car.CarStats), nameof(Car.CarStats.GetLoreStringLocalized))]
+    static class CarStats_GetLoreStringLocalized_Patch
+    {
+        static void Postfix(ref string __result)
+        {
+            if (!Main.enabled)
+                return;
+
+            __result = CarNameProvider.ReplaceName(__result);
+        }
     }
 }

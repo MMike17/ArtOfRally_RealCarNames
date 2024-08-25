@@ -82,5 +82,32 @@ namespace RealCarNames
 
             return carName;
         }
+
+        public static string ReplaceName(string description)
+        {
+            int carNameIndex = -1;
+
+            for (int i = 0; i < gameNames.Count; i++)
+            {
+                if (description.Contains(gameNames[i]))
+                {
+                    if (carNameIndex != -1)
+                    {
+                        Main.Log("Found multiple car names in the same description. Keeping first name.");
+                        break;
+                    }
+
+                    carNameIndex = i;
+                }
+            }
+
+            if (carNameIndex == -1)
+            {
+                Main.Log("Couldn't find a car name in the description, skipping substitution.");
+                return description;
+            }
+
+            return description.Replace(gameNames[carNameIndex], realNames[carNameIndex]);
+        }
     }
 }
