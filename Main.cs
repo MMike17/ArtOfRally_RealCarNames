@@ -1,10 +1,9 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityModManagerNet;
-
-using Object = UnityEngine.Object;
 
 namespace RealCarNames
 {
@@ -47,7 +46,7 @@ namespace RealCarNames
 
         public static void RefreshCarNames()
         {
-            List<Text> displays = new List<Text>(Object.FindObjectsOfType<Text>());
+            List<Text> displays = new List<Text>(Resources.FindObjectsOfTypeAll<Text>());
 
             CarManager.AllCarsList.ForEach(car =>
             {
