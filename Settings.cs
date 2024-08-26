@@ -11,5 +11,7 @@ namespace RealCarNames
         public bool withDates;
 
         public void OnChange() => Main.RefreshCarNames();
+
+        public override void Save(UnityModManager.ModEntry modEntry) => Save(this, modEntry);
     }
 }
