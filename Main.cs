@@ -13,8 +13,9 @@ namespace RealCarNames
         public static bool enabled { get; private set; }
 
         public static UnityModManager.ModEntry.ModLogger Logger;
+        public static Settings settings;
 
-        // Everything Works So Far
+        // "Everything Works So Far"
         static int ewsfCount;
 
         // Called by the mod manager
@@ -22,6 +23,7 @@ namespace RealCarNames
         {
             ewsfCount = 0;
             Logger = modEntry.Logger;
+            settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
 
             Harmony harmony = new Harmony(modEntry.Info.Id);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
@@ -37,11 +39,11 @@ namespace RealCarNames
         static bool OnToggle(UnityModManager.ModEntry modEntry, bool state)
         {
             enabled = state;
-            SetCarNames(state);
+            RefreshCarNames();
             return true;
         }
 
-        static void SetCarNames(bool realNames)
+        public static void RefreshCarNames()
         {
             List<Text> displays = new List<Text>(Object.FindObjectsOfType<Text>());
 
@@ -50,13 +52,14 @@ namespace RealCarNames
                 string original = car.name;
 
                 List<Text> currentDisplays = displays.FindAll(display => display.text.Contains(car.name));
-                car.name = CarNameProvider.SwitchName(car.name, realNames);
+                car.name = CarNameProvider.SwitchName(car.name);
 
-                // displays refresh
-                currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
+                // displays refresh if needed
+                if (original != car.name)
+                    currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
             });
 
-            Log("Setting names to " + (realNames ? "real" : "original") + " variants.");
+            Log("Setting names to " + (settings.realNames ? "real" : "original") + " variants" + (settings.withDates ? " with dates" : "") + ".");
         }
 
         public static void LogEwSF()
@@ -73,7 +76,7 @@ namespace RealCarNames
     {
         static void Postfix(ref string __result)
         {
-            if (!Main.enabled)
+            if (Main.settings == null || !Main.enabled || (!Main.settings.realNames && !Main.settings.withDates))
                 return;
 
             __result = CarNameProvider.ReplaceName(__result);

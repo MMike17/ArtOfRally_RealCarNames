@@ -58,20 +58,30 @@ namespace RealCarNames
             return gameNames;
         }
 
-        public static string SwitchName(string carName, bool toReal)
+        public static string SwitchName(string carName)
         {
-            List<string> source = toReal ? gameNames : realNames;
-            List<string> target = toReal ? realNames : gameNames;
+            // remove dates in name if found
+            if (carName.Contains("("))
+                carName = carName.Split(new string[] { " (" }, StringSplitOptions.None)[0];
 
-            if (!source.Contains(carName))
+            List<string> source = gameNames.Contains(carName) ? gameNames : realNames.Contains(carName) ? realNames : null;
+
+            if (source == null)
             {
-                if (target.Contains(carName))
-                    Main.Log("Name is already set to " + (toReal ? "real" : "game") + " variant.");
-                else
-                    Main.Log("Couldn't find \"" + carName + "\" in the provided lists of names. Check the lists of car names.");
+                Main.Log("Couldn't find \"" + carName + "\" in the provided lists of names. Check the lists of car names.");
+                return carName;
             }
 
-            return target[source.IndexOf(carName)];
+            List<string> target = Main.settings.realNames ? realNames : gameNames;
+            int carIndex = source.IndexOf(carName);
+
+            if (source != target)
+                carName = target[carIndex];
+
+            if (Main.settings.withDates)
+                carName += " " + years[carIndex];
+
+            return carName;
         }
 
         public static string ReplaceName(string description)
@@ -98,7 +108,7 @@ namespace RealCarNames
                 return description;
             }
 
-            return description.Replace(gameNames[carNameIndex], realNames[carNameIndex]);
+            return description.Replace(gameNames[carNameIndex], SwitchName(gameNames[carNameIndex]));
         }
     }
 }
