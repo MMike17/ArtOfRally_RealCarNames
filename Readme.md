@@ -26,6 +26,8 @@ Press `CTRL + F10` to bring up the mod menu.
 Click on the "Real car names" to enable/disable.
 If the mod is disabled, the regular game names are displayed.
 
+// UI hot reload doesn't work anymore
+
 ## Installation
 
 Follow the [installation guide](https://www.nexusmods.com/site/mods/21/) of
