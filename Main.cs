@@ -30,6 +30,8 @@ namespace RealCarNames
 
             // hook in mod manager event
             modEntry.OnToggle = OnToggle;
+            modEntry.OnGUI = entry => settings.Draw(modEntry);
+            modEntry.OnSaveGUI = entry => settings.Save(modEntry);
 
             CarNameProvider.Init();
 
