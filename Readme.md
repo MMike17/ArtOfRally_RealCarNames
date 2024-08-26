@@ -1,4 +1,4 @@
-﻿# Art Of Rally Splits
+﻿# Real car names
 
 [![](https://img.shields.io/github/v/release/MMike17/ArtOfRally_RealCarNames?label=Download)](https://github.com/MMike17/ArtOfRally_RealCarNames/releases/latest)
 ![](https://img.shields.io/badge/Game%20Version-v1.5.5-blue)
