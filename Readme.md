@@ -3,7 +3,7 @@
 [![](https://img.shields.io/github/v/release/MMike17/ArtOfRally_RealCarNames?label=Download)](https://github.com/MMike17/ArtOfRally_RealCarNames/releases/latest)
 ![](https://img.shields.io/badge/Game%20Version-v1.5.5-blue)
 
-A mod for Art of Rally replacing the name of cars in menus with their real counterpart names
+A mod for Art of Rally replacing the name of cars in menus with their real counterpart names (and production date).
 
 #### Launcher Support
 
@@ -22,27 +22,32 @@ A mod for Art of Rally replacing the name of cars in menus with their real count
 
 ## Usage
 
-Press `CTRL + F10` to bring up the mod menu.
-Adjust settings to select if you want real/original names with or without dates.
+Press `CTRL + F10` to bring up the mod menu.\
+Adjust settings to select what name format you want.
+
+"Original" is the default name of the car.\
+"Real" is the real name of the car.\
+"Year" is the year of the model.
+
 If the mod is disabled, the regular game names are displayed by default.
 
 ## Disclaimer
 
-UI hot reload no longer works.
+UI hot reload no longer works.\
 Please make sure to set the mod settings before entering menus where the car names are retrieved.
 
 ## Installation
 
 Follow the [installation guide](https://www.nexusmods.com/site/mods/21/) of
-the Unity Mod Manager.
+the Unity Mod Manager.\
 Then simply download the [latest release](https://github.com/MMike17/ArtOfRally_RealCarNames/releases/latest)
 and drop it into the mod manager's mods page.
 
 ## Showcase
 
 ![](Screenshots/Settings.png)
-![](Screenshots/RealNames.png)
-![](Screenshots/GameNames&Dates.png)
+![](Screenshots/OriginTimeRealSmall.png)
+![](Screenshots/RealOriginTimeParenthesis.png)
 ![](Screenshots/Leaderboard.png)
 
 ## Acknowledgments
