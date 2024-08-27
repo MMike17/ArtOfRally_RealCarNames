@@ -60,11 +60,32 @@ namespace RealCarNames
 
         public static string SwitchName(string carName, Settings.Format format)
         {
-            // remove dates in name if found
-            if (carName.Contains("("))
-                carName = carName.Split(new string[] { " (" }, StringSplitOptions.None)[0];
+            List<string> source = null;
+            int carIndex = -1;
 
-            List<string> source = gameNames.Contains(carName) ? gameNames : realNames.Contains(carName) ? realNames : null;
+            // have to do in-depth search for composite names
+            for (int i = 0; i < gameNames.Count; i++)
+            {
+                if (carName.Contains(gameNames[i]))
+                {
+                    source = gameNames;
+                    carIndex = i;
+                    break;
+                }
+            }
+
+            if (source == null)
+            {
+                for (int i = 0; i < realNames.Count; i++)
+                {
+                    if (carName.Contains(realNames[i]))
+                    {
+                        source = realNames;
+                        carIndex = i;
+                        break;
+                    }
+                }
+            }
 
             if (source == null)
             {
@@ -72,8 +93,7 @@ namespace RealCarNames
                 return carName;
             }
 
-            int carIndex = source.IndexOf(carName);
-
+            // I wish I could use the switch expression...
             switch (format)
             {
                 case Settings.Format.original:
@@ -109,10 +129,12 @@ namespace RealCarNames
             string result = start;
 
             if (Main.settings.lowerSize)
-                result += " <size=" + Main.settings.lowTextSize + ">";
+                result += "<size=" + Main.settings.lowTextSize + ">";
+
+            result += " ";
 
             if (Main.settings.parenthesis)
-                result += " (";
+                result += "(";
 
             // cleaner
             result += string.IsNullOrEmpty(second) ? string.Empty : second;
@@ -153,7 +175,6 @@ namespace RealCarNames
                 targetFormat = Settings.Format.real_year;
 
             detectedNames.ForEach(name => description = description.Replace(name, SwitchName(name, targetFormat)));
-
             return description;
         }
     }
