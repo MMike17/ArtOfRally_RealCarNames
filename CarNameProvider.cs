@@ -58,7 +58,7 @@ namespace RealCarNames
             return gameNames;
         }
 
-        public static string SwitchName(string carName)
+        public static string SwitchName(string carName, Settings.Format format)
         {
             // remove dates in name if found
             if (carName.Contains("("))
@@ -72,43 +72,89 @@ namespace RealCarNames
                 return carName;
             }
 
-            List<string> target = Main.settings.realNames ? realNames : gameNames;
             int carIndex = source.IndexOf(carName);
 
-            if (source != target)
-                carName = target[carIndex];
+            switch (format)
+            {
+                case Settings.Format.original:
+                    carName = gameNames[carIndex];
+                    break;
 
-            if (Main.settings.withDates)
-                carName += " " + years[carIndex];
+                case Settings.Format.real:
+                    carName = realNames[carIndex];
+                    break;
+
+                case Settings.Format.original_year:
+                    carName = BuildName(gameNames[carIndex], years[carIndex]);
+                    break;
+
+                case Settings.Format.real_year:
+                    carName = BuildName(realNames[carIndex], years[carIndex]);
+                    break;
+
+                case Settings.Format.original_year_real:
+                    carName = BuildName(gameNames[carIndex], years[carIndex] + " " + realNames[carIndex]);
+                    break;
+
+                case Settings.Format.real_original_year:
+                    carName = BuildName(realNames[carIndex], "\"" + gameNames[carIndex] + "\" " + years[carIndex]);
+                    break;
+            }
 
             return carName;
         }
 
+        static string BuildName(string start, string second)
+        {
+            string result = start;
+
+            if (Main.settings.lowerSize)
+                result += " <size=" + Main.settings.lowTextSize + ">";
+
+            if (Main.settings.parenthesis)
+                result += " (";
+
+            // cleaner
+            result += string.IsNullOrEmpty(second) ? string.Empty : second;
+
+            if (Main.settings.parenthesis)
+                result += ")";
+
+            if (Main.settings.lowerSize)
+                result += "</size>";
+
+            return result;
+        }
+
         public static string ReplaceName(string description)
         {
-            int carNameIndex = -1;
+            List<string> detectedNames = new List<string>();
 
             for (int i = 0; i < gameNames.Count; i++)
             {
-                if (description.Contains(gameNames[i]))
-                {
-                    if (carNameIndex != -1)
-                    {
-                        Main.Log("Found multiple car names in the same description. Keeping first name.");
-                        break;
-                    }
+                string checkedName = gameNames[i];
 
-                    carNameIndex = i;
-                }
+                if (description.Contains(checkedName) && !detectedNames.Contains(checkedName))
+                    detectedNames.Add(checkedName);
             }
 
-            if (carNameIndex == -1)
+            if (detectedNames.Count == 0)
             {
                 Main.Log("Couldn't find a car name in the description, skipping substitution.");
                 return description;
             }
 
-            return description.Replace(gameNames[carNameIndex], SwitchName(gameNames[carNameIndex]));
+            Settings.Format targetFormat = Main.settings.nameFormat;
+
+            if (targetFormat == Settings.Format.original_year_real)
+                targetFormat = Settings.Format.original_year;
+
+            if (targetFormat == Settings.Format.real_original_year)
+                targetFormat = Settings.Format.real_year;
+
+            detectedNames.ForEach(name => description = description.Replace(name, SwitchName(name, targetFormat)));
+
+            return description;
         }
     }
 }

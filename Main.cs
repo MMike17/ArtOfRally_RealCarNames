@@ -53,14 +53,14 @@ namespace RealCarNames
                 string original = car.name;
 
                 List<Text> currentDisplays = displays.FindAll(display => display.text.Contains(car.name));
-                car.name = CarNameProvider.SwitchName(car.name);
+                car.name = CarNameProvider.SwitchName(car.name, settings.nameFormat);
 
                 // displays refresh if needed
                 if (original != car.name)
                     currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
             });
 
-            Log("Setting names to " + (settings.realNames ? "real" : "original") + " variants" + (settings.withDates ? " with dates" : "") + ".");
+            Log("Formating names to \"" + settings.nameFormat.ToString().Replace('_', ' ') + "\" format");
         }
 
         public static void LogEwSF()
@@ -77,7 +77,7 @@ namespace RealCarNames
     {
         static void Postfix(ref string __result)
         {
-            if (Main.settings == null || !Main.enabled || (!Main.settings.realNames && !Main.settings.withDates))
+            if (Main.settings == null || !Main.enabled || Main.settings.nameFormat == Settings.Format.original)
                 return;
 
             __result = CarNameProvider.ReplaceName(__result);
