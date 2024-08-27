@@ -59,8 +59,6 @@ namespace RealCarNames
                 if (original != car.name)
                     currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
             });
-
-            Log("Formating names to \"" + settings.nameFormat.ToString().Replace('_', ' ') + "\" format");
         }
 
         public static void LogEwSF()
