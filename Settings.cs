@@ -25,8 +25,8 @@ namespace RealCarNames
         [Draw(DrawType.Toggle)]
         public bool parenthesis;
 
-        [Draw(DrawType.Slider, Min = 5, Max = 20)] // <= decide that later
-        public int lowTextSize = 10;
+        [Draw(DrawType.Slider, Min = 15, Max = 30)]
+        public int lowTextSize = 20;
 
         public void OnChange() => Main.RefreshCarNames();
 
