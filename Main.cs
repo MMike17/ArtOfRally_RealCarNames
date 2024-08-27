@@ -79,6 +79,7 @@ namespace RealCarNames
                 return;
 
             __result = CarNameProvider.ReplaceName(__result);
+            Object.FindObjectOfType<CarChooserHelper>().CarButton.CarHistoryText.supportRichText = true;
         }
     }
 }
