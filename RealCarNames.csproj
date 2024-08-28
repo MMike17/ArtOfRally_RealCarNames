@@ -73,9 +73,9 @@
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GameNames.txt" />
-    <EmbeddedResource Include="RealNames.txt" />
-    <EmbeddedResource Include="Years.txt" />
+    <EmbeddedResource Include="Data\GameNames.txt" />
+    <EmbeddedResource Include="Data\RealNames.txt" />
+    <EmbeddedResource Include="Data\Years.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyInfo" AfterTargets="BeforeBuild">
