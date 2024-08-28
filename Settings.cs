@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RealCarNames.Patches;
+using UnityEngine;
 using UnityModManagerNet;
 
 namespace RealCarNames
@@ -28,7 +29,14 @@ namespace RealCarNames
         [Draw(DrawType.Slider, Min = 15, Max = 30)]
         public int lowTextSize = 20;
 
-        public void OnChange() => Main.RefreshCarNames();
+        [Draw(DrawType.Slider, Min = 0, Max = 100)]
+        public int extraLeaderboardSpacing;
+
+        public void OnChange()
+        {
+            Main.RefreshCarNames();
+            LeaderboardScreenUpdater_UpdateLeaderboardUI_Patch.RefreshLeaderboard();
+        }
 
         public override void Save(UnityModManager.ModEntry modEntry) => Save(this, modEntry);
     }
