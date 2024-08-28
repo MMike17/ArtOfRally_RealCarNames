@@ -5,16 +5,16 @@ using System.Reflection;
 
 namespace RealCarNames
 {
-    static class CarNameProvider
+    public static class CarNameProvider
     {
         // embeded text files with names
         const string GAME_NAMES_FILE = "RealCarNames.GameNames.txt";
         const string REAL_NAMES_FILE = "RealCarNames.RealNames.txt";
         const string YEARS_FILE = "RealCarNames.Years.txt";
 
-        static List<string> gameNames;
+        public static List<string> gameNames;
+        public static List<string> years;
         static List<string> realNames;
-        static List<string> years;
 
         // called by Main
         public static void Init()
