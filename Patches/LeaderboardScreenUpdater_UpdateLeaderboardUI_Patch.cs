@@ -27,7 +27,10 @@ namespace RealCarNames.Patches
         {
             if (list == null)
             {
-                FieldInfo entryList = typeof(LeaderboardScreenUpdater).GetField("LeaderboardEntriesList", BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo entryList = typeof(LeaderboardScreenUpdater).GetField(
+                    "LeaderboardEntriesList",
+                    BindingFlags.NonPublic | BindingFlags.Instance
+                );
                 list = entryList.GetValue(__instance) as List<LeaderboardEntry>;
             }
 
@@ -77,6 +80,7 @@ namespace RealCarNames.Patches
                 entry.Car.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetCarSize);
             });
 
+            // this is not optimal at all
             LayoutRebuilder.MarkLayoutForRebuild(list[0].Name.rectTransform.parent.GetComponent<RectTransform>());
         }
     }

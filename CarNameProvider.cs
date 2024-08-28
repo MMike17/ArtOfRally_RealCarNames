@@ -26,7 +26,7 @@ namespace RealCarNames
             if (gameNames.Count != realNames.Count)
                 Main.Log("Game names and real names list do not match, please check the lists of names for missing or duplicates.");
             else
-                Main.Log("Loaded " + gameNames.Count + " car names");
+                Main.Log("Loaded " + gameNames.Count + " car data.");
         }
 
         static List<string> GetLinesFromFile(string fileName)
