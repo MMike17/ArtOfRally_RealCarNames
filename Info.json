@@ -2,9 +2,10 @@
 	"Id": "RealCarNames",
 	"DisplayName": "Real car names",
 	"Author": "MMike17",
-	"Version": "1.3.0",
+	"Version": "1.4.0",
 	"GameVersion": "1.5,5",
 	"AssemblyName": "RealCarNames.dll",
 	"EntryMethod": "RealCarNames.Main.Load",
+	"HomePage": "https://www.nexusmods.com/artofrally/mods/10",
 	"Repository": "https://github.com/MMike17/ArtOfRally_RealCarNames"
 }
