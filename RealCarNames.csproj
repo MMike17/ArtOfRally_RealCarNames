@@ -68,10 +68,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Patches\CarStats_GetLoreStringLocalized_Patch.cs" />
-    <Compile Include="Patches\LeaderboardScreenUpdater_UpdateLeaderboardUI_Patch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="CarNameProvider.cs" />
+    <Compile Include="Patches\Patches.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>

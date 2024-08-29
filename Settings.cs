@@ -36,6 +36,8 @@ namespace RealCarNames
         {
             Main.RefreshCarNames();
             LeaderboardScreenUpdater_UpdateLeaderboardUI_Patch.RefreshLeaderboard();
+            StageResults_UpdateStageResults_Patch.RefreshStageResults();
+            SeasonStandingsScreen_Init_Patch.RefreshLeaderboard();
         }
 
         public override void Save(UnityModManager.ModEntry modEntry) => Save(this, modEntry);

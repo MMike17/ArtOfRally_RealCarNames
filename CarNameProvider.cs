@@ -60,7 +60,6 @@ namespace RealCarNames
 
         public static string SwitchName(string carName, Settings.Format format)
         {
-            List<string> source = null;
             int carIndex = -1;
 
             // have to do in-depth search for composite names
@@ -68,60 +67,55 @@ namespace RealCarNames
             {
                 if (carName.Contains(gameNames[i]))
                 {
-                    source = gameNames;
                     carIndex = i;
                     break;
                 }
             }
 
-            if (source == null)
+            if (carIndex == -1)
             {
                 for (int i = 0; i < realNames.Count; i++)
                 {
                     if (carName.Contains(realNames[i]))
                     {
-                        source = realNames;
                         carIndex = i;
                         break;
                     }
                 }
             }
 
-            if (source == null)
-            {
-                Main.Log("Couldn't find \"" + carName + "\" in the provided lists of names. Check the lists of car names.");
-                return carName;
-            }
+            string result = string.Empty;
 
             // I wish I could use the switch expression...
             switch (format)
             {
                 case Settings.Format.original:
-                    carName = gameNames[carIndex];
+                    result = gameNames[carIndex];
                     break;
 
                 case Settings.Format.real:
-                    carName = realNames[carIndex];
+                    result = realNames[carIndex];
                     break;
 
                 case Settings.Format.original_year:
-                    carName = BuildName(gameNames[carIndex], years[carIndex]);
+                    result = BuildName(gameNames[carIndex], years[carIndex]);
                     break;
 
                 case Settings.Format.real_year:
-                    carName = BuildName(realNames[carIndex], years[carIndex]);
+                    result = BuildName(realNames[carIndex], years[carIndex]);
                     break;
 
                 case Settings.Format.original_year_real:
-                    carName = BuildName(gameNames[carIndex], years[carIndex] + " " + realNames[carIndex]);
+                    result = BuildName(gameNames[carIndex], years[carIndex] + " " + realNames[carIndex]);
                     break;
 
                 case Settings.Format.real_original_year:
-                    carName = BuildName(realNames[carIndex], "\"" + gameNames[carIndex] + "\" " + years[carIndex]);
+                    result = BuildName(realNames[carIndex], "\"" + gameNames[carIndex] + "\" " + years[carIndex]);
                     break;
             }
 
-            return carName;
+            //Main.Log(carName + " => " + result);
+            return result;
         }
 
         static string BuildName(string start, string second)
@@ -136,8 +130,7 @@ namespace RealCarNames
             if (Main.settings.parenthesis)
                 result += "(";
 
-            // cleaner
-            result += string.IsNullOrEmpty(second) ? string.Empty : second;
+            result += second;
 
             if (Main.settings.parenthesis)
                 result += ")";
@@ -173,6 +166,9 @@ namespace RealCarNames
 
             if (targetFormat == Settings.Format.real_original_year)
                 targetFormat = Settings.Format.real_year;
+
+            if (!Main.enabled)
+                targetFormat = Settings.Format.original;
 
             detectedNames.ForEach(name => description = description.Replace(name, SwitchName(name, targetFormat)));
             return description;
