@@ -60,30 +60,7 @@ namespace RealCarNames
 
         public static string SwitchName(string carName, Settings.Format format)
         {
-            int carIndex = -1;
-
-            // have to do in-depth search for composite names
-            for (int i = 0; i < gameNames.Count; i++)
-            {
-                if (carName.Contains(gameNames[i]))
-                {
-                    carIndex = i;
-                    break;
-                }
-            }
-
-            if (carIndex == -1)
-            {
-                for (int i = 0; i < realNames.Count; i++)
-                {
-                    if (carName.Contains(realNames[i]))
-                    {
-                        carIndex = i;
-                        break;
-                    }
-                }
-            }
-
+            int carIndex = DetectCarName(carName);
             string result = string.Empty;
 
             // I wish I could use the switch expression...
@@ -172,6 +149,36 @@ namespace RealCarNames
 
             detectedNames.ForEach(name => description = description.Replace(name, SwitchName(name, targetFormat)));
             return description;
+        }
+
+        // used by "Matching dates" mod
+        public static int DetectCarName(string carName)
+        {
+            int carIndex = -1;
+
+            // have to do in-depth search for composite names
+            for (int i = 0; i < gameNames.Count; i++)
+            {
+                if (carName.Contains(gameNames[i]))
+                {
+                    carIndex = i;
+                    break;
+                }
+            }
+
+            if (carIndex == -1)
+            {
+                for (int i = 0; i < realNames.Count; i++)
+                {
+                    if (carName.Contains(realNames[i]))
+                    {
+                        carIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            return carIndex;
         }
     }
 }
