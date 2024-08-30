@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -17,7 +19,7 @@ namespace RealCarNames.Patches
                 return;
 
             __result = CarNameProvider.ReplaceName(__result);
-            Object.FindObjectOfType<CarChooserHelper>().CarButton.CarHistoryText.supportRichText = true;
+            GameObject.FindObjectOfType<CarChooserHelper>().CarButton.CarHistoryText.supportRichText = true;
         }
     }
 
@@ -209,47 +211,56 @@ namespace RealCarNames.Patches
 
         static void Postfix(SeasonStandingsScreen __instance)
         {
-            Main.Log("Started end screen postfix (has instance : " + (__instance != null));
+            Main.Log("Started end screen postfix (has instance : " + (__instance != null) + ")");
 
-            if (__instance != null)
+            __instance.StartCoroutine(UpdateWhenReady(__instance.GetComponent<CanvasGroup>(), () =>
             {
-                list = new List<CustomEntry>();
-                Transform root = __instance.transform.GetChild(1);
-
-                for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
-                    list.Add(new CustomEntry(root.GetChild(i)));
-
-                Main.Log("Refreshed standing refs");
-            }
-
-            if (list == null || list.Count == 0)
-            {
-                Main.Log("Don't have list");
-                return;
-            }
-
-            if (Main.enabled)
-            {
-                Main.Log("Setting sizes");
-
-                float maxNameWidth = 0;
-                float maxCarWidth = 0;
-
-                list.ForEach(entry =>
+                if (__instance != null)
                 {
-                    maxNameWidth = Mathf.Max(maxNameWidth, entry.GetPreferedNameWidth());
-                    maxCarWidth = Mathf.Max(maxCarWidth, entry.GetPreferedCarWidth());
-                });
+                    list = new List<CustomEntry>();
+                    Transform root = __instance.transform.GetChild(1);
 
-                Main.Log("Get max sizes");
+                    for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
+                        list.Add(new CustomEntry(root.GetChild(i)));
 
-                list.ForEach(entry => entry.FitNameAndCar(maxNameWidth, maxCarWidth));
-            }
-            else
-            {
-                Main.Log("Reset");
-                list.ForEach(entry => entry.FitNameAndCar(entry.originalNameSize, entry.originalCarSize));
-            }
+                    Main.Log("Refreshed standing refs");
+                }
+
+                if (list == null || list.Count == 0)
+                {
+                    Main.Log("Don't have list");
+                    return;
+                }
+
+                if (Main.enabled)
+                {
+                    Main.Log("Setting sizes");
+
+                    float maxNameWidth = 0;
+                    float maxCarWidth = 0;
+
+                    list.ForEach(entry =>
+                    {
+                        maxNameWidth = Mathf.Max(maxNameWidth, entry.GetPreferedNameWidth());
+                        maxCarWidth = Mathf.Max(maxCarWidth, entry.GetPreferedCarWidth());
+                    });
+
+                    Main.Log("Get max sizes");
+
+                    list.ForEach(entry => entry.FitNameAndCar(maxNameWidth, maxCarWidth));
+                }
+                else
+                {
+                    Main.Log("Reset");
+                    list.ForEach(entry => entry.FitNameAndCar(entry.originalNameSize, entry.originalCarSize));
+                }
+            }));
+        }
+
+        static IEnumerator UpdateWhenReady(CanvasGroup obj, Action callback)
+        {
+            yield return new WaitUntil(() => obj.alpha > 0);
+            callback?.Invoke();
         }
 
         // thanks devs for making your class internal....now I have to do the work twice...
