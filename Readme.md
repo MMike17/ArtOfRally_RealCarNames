@@ -49,6 +49,7 @@ and drop it into the mod manager's mods page.
 ![](Screenshots/OriginTimeRealSmall.png)
 ![](Screenshots/RealOriginTimeParenthesis.png)
 ![](Screenshots/Leaderboard.png)
+![](Screenshots/EndRallyLeaderboard.png)
 
 ## Acknowledgments
 
