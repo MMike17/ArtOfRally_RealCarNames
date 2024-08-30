@@ -211,8 +211,6 @@ namespace RealCarNames.Patches
 
         static void Postfix(SeasonStandingsScreen __instance)
         {
-            Main.Log("Started end screen postfix (has instance : " + (__instance != null) + ")");
-
             __instance.StartCoroutine(UpdateWhenReady(__instance.GetComponent<CanvasGroup>(), () =>
             {
                 if (__instance != null)
@@ -222,8 +220,6 @@ namespace RealCarNames.Patches
 
                     for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
                         list.Add(new CustomEntry(root.GetChild(i)));
-
-                    Main.Log("Refreshed standing refs");
                 }
 
                 if (list == null || list.Count == 0)
@@ -234,8 +230,6 @@ namespace RealCarNames.Patches
 
                 if (Main.enabled)
                 {
-                    Main.Log("Setting sizes");
-
                     float maxNameWidth = 0;
                     float maxCarWidth = 0;
 
@@ -245,15 +239,10 @@ namespace RealCarNames.Patches
                         maxCarWidth = Mathf.Max(maxCarWidth, entry.GetPreferedCarWidth());
                     });
 
-                    Main.Log("Get max sizes");
-
                     list.ForEach(entry => entry.FitNameAndCar(maxNameWidth, maxCarWidth));
                 }
                 else
-                {
-                    Main.Log("Reset");
                     list.ForEach(entry => entry.FitNameAndCar(entry.originalNameSize, entry.originalCarSize));
-                }
             }));
         }
 

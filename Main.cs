@@ -55,15 +55,6 @@ namespace RealCarNames
                 List<Text> currentDisplays = displays.FindAll(display => display.text.Contains(car.name));
                 car.name = CarNameProvider.SwitchName(car.name, Main.enabled ? settings.nameFormat : Settings.Format.original);
 
-                if (car.name.Length >= 20)
-                {
-                    //currentDisplays.ForEach(item =>
-                    //{
-                    //    Log("initial text : " + item.text + " / result : " + item.text.Replace(original, car.name));
-                    //    Log("start name : " + original + " / new : " + car.name);
-                    //});
-                }
-
                 // displays refresh if needed
                 if (original != car.name)
                     currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
