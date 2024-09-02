@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -60,5 +61,17 @@ namespace RealCarNames
         }
 
         public static void Log(string message) => Logger.Log(message);
+
+        public static void Try(Action callback)
+        {
+            try
+            {
+                callback?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Log(e.ToString());
+            }
+        }
     }
 }
