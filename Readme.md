@@ -33,7 +33,7 @@ If the mod is disabled, the regular game names are displayed by default.
 
 ## Disclaimer
 
-UI hot reload no longer works.\
+UI hot reload doesn't work reliably.\
 Please make sure to set the mod settings before entering menus where the car names are retrieved.
 
 ## Installation
