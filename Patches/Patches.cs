@@ -6,23 +6,29 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
+using static RealCarNames.Settings;
 using static UnityEngine.RectTransform;
 
 namespace RealCarNames.Patches
 {
+    // replaces car name in car description
     [HarmonyPatch(typeof(Car.CarStats), nameof(Car.CarStats.GetLoreStringLocalized))]
     static class CarStats_GetLoreStringLocalized_Patch
     {
         static void Postfix(ref string __result)
         {
-            if (Main.settings == null || !Main.enabled || Main.settings.nameFormat == Settings.Format.original)
+            if (Main.settings == null || !Main.enabled || Main.settings.nameFormat == Format.original)
                 return;
 
             __result = CarNameProvider.ReplaceName(__result);
-            GameObject.FindObjectOfType<CarChooserHelper>().CarButton.CarHistoryText.supportRichText = true;
+            CarChooserHelper helper = GameObject.FindObjectOfType<CarChooserHelper>();
+
+            if (helper.CarButton.CarHistoryText != null)
+                helper.CarButton.CarHistoryText.supportRichText = true;
         }
     }
 
+    // fixes spacing in leaderboards
     [HarmonyPatch(typeof(LeaderboardScreenUpdater), "UpdateLeaderboardUI")]
     static class LeaderboardScreenUpdater_UpdateLeaderboardUI_Patch
     {
@@ -108,12 +114,14 @@ namespace RealCarNames.Patches
         }
     }
 
+    // fixes spacing in stage results leaderboards
     [HarmonyPatch(typeof(StageResults), nameof(StageResults.UpdateEventResults))]
     static class StageResults_UpdateEventResults_Patch
     {
         static void Postfix(StageResults __instance) => StageResults_UpdateStageResults_Patch.Postfix(__instance);
     }
 
+    // fixes spacing in event results leaderboards
     [HarmonyPatch(typeof(StageResults), nameof(StageResults.UpdateStageResults))]
     static class StageResults_UpdateStageResults_Patch
     {
@@ -196,6 +204,7 @@ namespace RealCarNames.Patches
         }
     }
 
+    // fixes spacing in end of season leaderboards
     [HarmonyPatch(typeof(SeasonStandingsScreen), nameof(SeasonStandingsScreen.Init))]
     static class SeasonStandingsScreen_Init_Patch
     {
