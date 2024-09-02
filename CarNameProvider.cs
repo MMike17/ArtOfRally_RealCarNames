@@ -12,8 +12,8 @@ namespace RealCarNames
         const string REAL_NAMES_FILE = "RealCarNames.Data.RealNames.txt";
         const string YEARS_FILE = "RealCarNames.Data.Years.txt";
 
-        public static List<string> gameNames;
-        public static List<string> years;
+        static List<string> years;
+        static List<string> gameNames;
         static List<string> realNames;
 
         // called by Main
@@ -91,7 +91,6 @@ namespace RealCarNames
                     break;
             }
 
-            //Main.Log(carName + " => " + result);
             return result;
         }
 
@@ -180,5 +179,8 @@ namespace RealCarNames
 
             return carIndex;
         }
+
+        // used by "Matching dates" mod
+        public static int GetCarYear(string carName) => int.Parse(years[DetectCarName(carName)]);
     }
 }
