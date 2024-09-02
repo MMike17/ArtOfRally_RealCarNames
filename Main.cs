@@ -14,13 +14,9 @@ namespace RealCarNames
         public static UnityModManager.ModEntry.ModLogger Logger;
         public static Settings settings;
 
-        // "Everything Works So Far"
-        static int ewsfCount;
-
         // Called by the mod manager
         static bool Load(UnityModManager.ModEntry modEntry)
         {
-            ewsfCount = 0;
             Logger = modEntry.Logger;
             settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
 
@@ -61,12 +57,6 @@ namespace RealCarNames
             });
 
             Log("Refreshed car names to format " + (Main.enabled ? settings.nameFormat : Settings.Format.original));
-        }
-
-        public static void LogEwSF()
-        {
-            ewsfCount++;
-            Log("(" + ewsfCount + ") EwSF");
         }
 
         public static void Log(string message) => Logger.Log(message);
