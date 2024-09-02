@@ -20,11 +20,18 @@ namespace RealCarNames.Patches
             if (Main.settings == null || !Main.enabled || Main.settings.nameFormat == Format.original)
                 return;
 
-            __result = CarNameProvider.ReplaceName(__result);
-            CarChooserHelper helper = GameObject.FindObjectOfType<CarChooserHelper>();
+            string result = __result;
 
-            if (helper.CarButton.CarHistoryText != null)
-                helper.CarButton.CarHistoryText.supportRichText = true;
+            Main.Try(() =>
+            {
+                result = CarNameProvider.ReplaceName(result);
+                CarChooserHelper helper = GameObject.FindObjectOfType<CarChooserHelper>();
+
+                if (helper.CarButton.CarHistoryText != null)
+                    helper.CarButton.CarHistoryText.supportRichText = true;
+            });
+
+            __result = result;
         }
     }
 
@@ -60,57 +67,60 @@ namespace RealCarNames.Patches
 
         static void Postfix(LeaderboardScreenUpdater __instance)
         {
-            if (__instance != null)
+            Main.Try(() =>
             {
-                FieldInfo entryList = typeof(LeaderboardScreenUpdater).GetField(
-                    "LeaderboardEntriesList",
-                    BindingFlags.NonPublic | BindingFlags.Instance
-                );
-                list = entryList.GetValue(__instance) as List<LeaderboardEntry>;
-            }
+                if (__instance != null)
+                {
+                    FieldInfo entryList = typeof(LeaderboardScreenUpdater).GetField(
+                        "LeaderboardEntriesList",
+                        BindingFlags.NonPublic | BindingFlags.Instance
+                    );
+                    list = entryList.GetValue(__instance) as List<LeaderboardEntry>;
+                }
 
-            if (!IsListValid())
-            {
-                Main.Log("Couldn't retrieve leaderboard entry list. Aborting");
-                return;
-            }
+                if (!IsListValid())
+                {
+                    Main.Log("Couldn't retrieve leaderboard entry list. Aborting");
+                    return;
+                }
 
-            if (originalNameSize == 0)
-                originalNameSize = list[0].Name.rectTransform.sizeDelta.x;
+                if (originalNameSize == 0)
+                    originalNameSize = list[0].Name.rectTransform.sizeDelta.x;
 
-            if (originalCarSize == 0)
-                originalCarSize = list[0].Car.rectTransform.sizeDelta.x;
+                if (originalCarSize == 0)
+                    originalCarSize = list[0].Car.rectTransform.sizeDelta.x;
 
-            float targetNameSize = originalNameSize;
-            float targetCarSize = originalCarSize;
+                float targetNameSize = originalNameSize;
+                float targetCarSize = originalCarSize;
 
-            if (Main.enabled)
-            {
-                float spacing = Main.settings.extraLeaderboardSpacing + list[0].Name.GetComponentInParent<HorizontalLayoutGroup>().spacing;
-                float maxNameWidth = 0;
-                float maxCarWidth = 0;
+                if (Main.enabled)
+                {
+                    float spacing = Main.settings.extraLeaderboardSpacing + list[0].Name.GetComponentInParent<HorizontalLayoutGroup>().spacing;
+                    float maxNameWidth = 0;
+                    float maxCarWidth = 0;
+
+                    list.ForEach(entry =>
+                    {
+                        float currentNameWidth = LayoutUtility.GetPreferredWidth(entry.Name.rectTransform);
+                        float currentCarWidth = LayoutUtility.GetPreferredWidth(entry.Car.rectTransform);
+
+                        maxNameWidth = Mathf.Max(maxNameWidth, currentNameWidth);
+                        maxCarWidth = Mathf.Max(maxCarWidth, currentCarWidth);
+                    });
+
+                    targetNameSize = maxNameWidth + spacing;
+                    targetCarSize = maxCarWidth + spacing;
+                }
 
                 list.ForEach(entry =>
                 {
-                    float currentNameWidth = LayoutUtility.GetPreferredWidth(entry.Name.rectTransform);
-                    float currentCarWidth = LayoutUtility.GetPreferredWidth(entry.Car.rectTransform);
-
-                    maxNameWidth = Mathf.Max(maxNameWidth, currentNameWidth);
-                    maxCarWidth = Mathf.Max(maxCarWidth, currentCarWidth);
+                    entry.Name.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetNameSize);
+                    entry.Car.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetCarSize);
                 });
 
-                targetNameSize = maxNameWidth + spacing;
-                targetCarSize = maxCarWidth + spacing;
-            }
-
-            list.ForEach(entry =>
-            {
-                entry.Name.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetNameSize);
-                entry.Car.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetCarSize);
+                // this is not optimal at all
+                LayoutRebuilder.MarkLayoutForRebuild(list[0].Name.rectTransform.parent.GetComponent<RectTransform>());
             });
-
-            // this is not optimal at all
-            LayoutRebuilder.MarkLayoutForRebuild(list[0].Name.rectTransform.parent.GetComponent<RectTransform>());
         }
     }
 
@@ -153,54 +163,57 @@ namespace RealCarNames.Patches
 
         public static void Postfix(StageResults __instance)
         {
-            if (__instance != null)
+            Main.Try(() =>
             {
-                FieldInfo entryList = typeof(StageResults).GetField("StandingsList", BindingFlags.NonPublic | BindingFlags.Instance);
-                list = entryList.GetValue(__instance) as List<StageEntry>;
-            }
+                if (__instance != null)
+                {
+                    FieldInfo entryList = typeof(StageResults).GetField("StandingsList", BindingFlags.NonPublic | BindingFlags.Instance);
+                    list = entryList.GetValue(__instance) as List<StageEntry>;
+                }
 
-            if (!IsListValid())
-            {
-                Main.Log("Couldn't retrive stage result entry list. Aborting.");
-                return;
-            }
+                if (!IsListValid())
+                {
+                    Main.Log("Couldn't retrive stage result entry list. Aborting.");
+                    return;
+                }
 
-            if (originalNameSize == 0)
-                originalNameSize = list[0].Name.rectTransform.sizeDelta.x;
+                if (originalNameSize == 0)
+                    originalNameSize = list[0].Name.rectTransform.sizeDelta.x;
 
-            if (originalCarSize == 0)
-                originalCarSize = list[0].Car.rectTransform.sizeDelta.x;
+                if (originalCarSize == 0)
+                    originalCarSize = list[0].Car.rectTransform.sizeDelta.x;
 
-            float targetNameSize = originalNameSize;
-            float targetCarSize = originalCarSize;
+                float targetNameSize = originalNameSize;
+                float targetCarSize = originalCarSize;
 
-            if (Main.enabled)
-            {
-                float spacing = Main.settings.extraLeaderboardSpacing + list[0].Name.GetComponentInParent<HorizontalLayoutGroup>().spacing;
-                float maxNameWidth = 0;
-                float maxCarWidth = 0;
+                if (Main.enabled)
+                {
+                    float spacing = Main.settings.extraLeaderboardSpacing + list[0].Name.GetComponentInParent<HorizontalLayoutGroup>().spacing;
+                    float maxNameWidth = 0;
+                    float maxCarWidth = 0;
+
+                    list.ForEach(entry =>
+                    {
+                        float currentNameWidth = LayoutUtility.GetPreferredWidth(entry.Name.rectTransform);
+                        float currentCarWidth = LayoutUtility.GetPreferredWidth(entry.Car.rectTransform);
+
+                        maxNameWidth = Mathf.Max(maxNameWidth, currentNameWidth);
+                        maxCarWidth = Mathf.Max(maxCarWidth, currentCarWidth);
+                    });
+
+                    targetNameSize = maxNameWidth + spacing;
+                    targetCarSize = maxCarWidth + spacing;
+                }
 
                 list.ForEach(entry =>
                 {
-                    float currentNameWidth = LayoutUtility.GetPreferredWidth(entry.Name.rectTransform);
-                    float currentCarWidth = LayoutUtility.GetPreferredWidth(entry.Car.rectTransform);
-
-                    maxNameWidth = Mathf.Max(maxNameWidth, currentNameWidth);
-                    maxCarWidth = Mathf.Max(maxCarWidth, currentCarWidth);
+                    entry.Name.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetNameSize);
+                    entry.Car.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetCarSize);
                 });
 
-                targetNameSize = maxNameWidth + spacing;
-                targetCarSize = maxCarWidth + spacing;
-            }
-
-            list.ForEach(entry =>
-            {
-                entry.Name.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetNameSize);
-                entry.Car.rectTransform.SetSizeWithCurrentAnchors(Axis.Horizontal, targetCarSize);
+                // this is not optimal at all
+                LayoutRebuilder.MarkLayoutForRebuild(list[0].Name.rectTransform.parent.GetComponent<RectTransform>());
             });
-
-            // this is not optimal at all
-            LayoutRebuilder.MarkLayoutForRebuild(list[0].Name.rectTransform.parent.GetComponent<RectTransform>());
         }
     }
 
@@ -220,39 +233,42 @@ namespace RealCarNames.Patches
 
         static void Postfix(SeasonStandingsScreen __instance)
         {
-            __instance.StartCoroutine(UpdateWhenReady(__instance.GetComponent<CanvasGroup>(), () =>
+            Main.Try(() =>
             {
-                if (__instance != null)
+                __instance.StartCoroutine(UpdateWhenReady(__instance.GetComponent<CanvasGroup>(), () =>
                 {
-                    list = new List<CustomEntry>();
-                    Transform root = __instance.transform.GetChild(1);
-
-                    for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
-                        list.Add(new CustomEntry(root.GetChild(i)));
-                }
-
-                if (list == null || list.Count == 0)
-                {
-                    Main.Log("Don't have list");
-                    return;
-                }
-
-                if (Main.enabled)
-                {
-                    float maxNameWidth = 0;
-                    float maxCarWidth = 0;
-
-                    list.ForEach(entry =>
+                    if (__instance != null)
                     {
-                        maxNameWidth = Mathf.Max(maxNameWidth, entry.GetPreferedNameWidth());
-                        maxCarWidth = Mathf.Max(maxCarWidth, entry.GetPreferedCarWidth());
-                    });
+                        list = new List<CustomEntry>();
+                        Transform root = __instance.transform.GetChild(1);
 
-                    list.ForEach(entry => entry.FitNameAndCar(maxNameWidth, maxCarWidth));
-                }
-                else
-                    list.ForEach(entry => entry.FitNameAndCar(entry.originalNameSize, entry.originalCarSize));
-            }));
+                        for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
+                            list.Add(new CustomEntry(root.GetChild(i)));
+                    }
+
+                    if (list == null || list.Count == 0)
+                    {
+                        Main.Log("Don't have list");
+                        return;
+                    }
+
+                    if (Main.enabled)
+                    {
+                        float maxNameWidth = 0;
+                        float maxCarWidth = 0;
+
+                        list.ForEach(entry =>
+                        {
+                            maxNameWidth = Mathf.Max(maxNameWidth, entry.GetPreferedNameWidth());
+                            maxCarWidth = Mathf.Max(maxCarWidth, entry.GetPreferedCarWidth());
+                        });
+
+                        list.ForEach(entry => entry.FitNameAndCar(maxNameWidth, maxCarWidth));
+                    }
+                    else
+                        list.ForEach(entry => entry.FitNameAndCar(entry.originalNameSize, entry.originalCarSize));
+                }));
+            });
         }
 
         static IEnumerator UpdateWhenReady(CanvasGroup obj, Action callback)
