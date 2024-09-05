@@ -24,12 +24,13 @@ namespace RealCarNames
             Harmony harmony = new Harmony(modEntry.Info.Id);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
+            // make sure this is called before OnToggle
+            CarNameProvider.Init();
+
             // hook in mod manager event
             modEntry.OnToggle = OnToggle;
             modEntry.OnGUI = entry => settings.Draw(modEntry);
             modEntry.OnSaveGUI = entry => settings.Save(modEntry);
-
-            CarNameProvider.Init();
 
             return true;
         }
@@ -50,14 +51,14 @@ namespace RealCarNames
                 string original = car.name;
 
                 List<Text> currentDisplays = displays.FindAll(display => display.text.Contains(car.name));
-                car.name = CarNameProvider.SwitchName(car.name, Main.enabled ? settings.nameFormat : Settings.Format.original);
+                car.name = CarNameProvider.SwitchName(car, enabled ? settings.nameFormat : Settings.Format.original);
 
                 // displays refresh if needed
                 if (original != car.name)
                     currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
             });
 
-            Log("Refreshed car names to format " + (Main.enabled ? settings.nameFormat : Settings.Format.original));
+            Log("Refreshed car names to format " + (enabled ? settings.nameFormat : Settings.Format.original));
         }
 
         public static void Log(string message) => Logger.Log(message);
