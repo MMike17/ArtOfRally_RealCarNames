@@ -32,6 +32,9 @@ namespace RealCarNames
         [Draw(DrawType.Slider, Min = 0, Max = 100)]
         public int extraLeaderboardSpacing;
 
+        [Header("Debug")]
+        public bool disableInfoLog;
+
         public void OnChange()
         {
             Main.RefreshCarNames();

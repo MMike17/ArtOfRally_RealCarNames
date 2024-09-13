@@ -42,6 +42,9 @@ namespace RealCarNames
             realNames = newRealNames;
             years = newYears;
 
+            if (Main.settings.disableInfoLog)
+                return;
+
             if (gameNames.Count != realNames.Count)
                 Main.Log("Game names and real names list do not match, please check the lists of names for missing or duplicates.");
             else

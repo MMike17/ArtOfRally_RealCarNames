@@ -58,7 +58,8 @@ namespace RealCarNames
                     currentDisplays.ForEach(display => display.text = display.text.Replace(original, car.name));
             });
 
-            Log("Refreshed car names to format " + (enabled ? settings.nameFormat : Settings.Format.original));
+            if (!settings.disableInfoLog)
+                Log("Refreshed car names to format " + (enabled ? settings.nameFormat : Settings.Format.original));
         }
 
         public static void Log(string message) => Logger.Log(message);
