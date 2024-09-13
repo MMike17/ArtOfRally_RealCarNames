@@ -29,6 +29,11 @@ Adjust settings to select what name format you want.
 "Real" is the real name of the car.\
 "Year" is the year of the model.
 
+"lowerSize" enables the extra text to be in lower size.\
+"parenthesis" enables the extra text to be in parenthesis.\
+"lowTextSize" is the size of the text in lower size.\
+"extraLeaderboardSpacing" is the extra padding given to columns in leaderboards.
+
 If the mod is disabled, the regular game names are displayed by default.
 
 ## Disclaimer
