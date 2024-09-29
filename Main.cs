@@ -10,6 +10,8 @@ namespace RealCarNames
 {
     public class Main
     {
+        const string SAVE_KEY = "RealCarNames_OneTimeSave";
+
         public static bool enabled { get; private set; }
 
         public static UnityModManager.ModEntry.ModLogger Logger;
@@ -20,6 +22,14 @@ namespace RealCarNames
         {
             Logger = modEntry.Logger;
             settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
+
+            if (PlayerPrefs.GetInt(SAVE_KEY, 0) != 1)
+            {
+                if (settings.nameFormat == Settings.Format.original)
+                    settings.nameFormat = Settings.Format.real;
+
+                PlayerPrefs.SetInt(SAVE_KEY, 1);
+            }
 
             Harmony harmony = new Harmony(modEntry.Info.Id);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
