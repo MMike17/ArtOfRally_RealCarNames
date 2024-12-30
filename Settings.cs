@@ -17,7 +17,7 @@ namespace RealCarNames
         };
 
         [Header("Only the four first options are valid in car descriptions.")]
-        [Draw(DrawType.PopupList)]
+        [Draw(DrawType.Auto)]
         public Format nameFormat = Format.real;
 
         [Draw(DrawType.Toggle)]
