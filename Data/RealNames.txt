@@ -24,7 +24,7 @@ Ford Sierra
 Ford Transit
 Honda Acty
 KamAZ 4911
-Lada Samara
+Lada Samara EVA
 Lancia 037 Rally
 Lancia Delta Integrale
 Lancia Delta S4
@@ -33,13 +33,13 @@ Lancia ECV 2
 Lancia Fulvia Coupé
 Lancia Stratos
 Mazda RX-3
-Mazda RX-7 Evo Group B
+Mazda RX-7 Evo
 Mazda RX-7S
 MG Metro 6R4
 Mitsubishi Lancer Evolution VI
 Nissan 240RS
 Opel Ascona 400
-Opel Kadett
+Opel Kadett 4x4
 Opel Manta 400
 Peugeot 205 Turbo 16
 Peugeot 405 Turbo 16
@@ -47,7 +47,7 @@ Piaggio Ape
 Porsche 911
 Porsche 911 SC Safari
 Porsche 959 Rally Raid
-Renault 17
+Renault 17 Gordini
 Renault 5 Maxi Turbo
 Renault 5 Turbo
 Renault 8 Gordini
@@ -56,7 +56,7 @@ Skoda 130 RS
 Skoda 200 RS
 Subaru Impreza WRC
 Toyota 222D
-Toyota Celica GT4
+Toyota Celica Turbo
 Toyota Celica Twin-Cam Turbo
 Toyota Sprinter Trueno
 Volkswagen LT

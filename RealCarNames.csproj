@@ -90,6 +90,6 @@
     <Copy SourceFiles="bin\Debug\RealCarNames.dll" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\artofrally\Mods\RealCarNames" />
   </Target>
   <Target Name="StartGame" AfterTargets="AfterBuild">
-    <Exec Command="&quot;C:\Data\Games\art of rally.url&quot;" />
+    <Exec Command="&quot;C:\Data\Games\Backfoot\art of rally.url&quot;" />
   </Target>
 </Project>
