@@ -128,7 +128,10 @@ namespace RealCarNames.Patches
     [HarmonyPatch(typeof(StageResults), nameof(StageResults.UpdateEventResults))]
     static class StageResults_UpdateEventResults_Patch
     {
-        static void Postfix(StageResults __instance) => StageResults_UpdateStageResults_Patch.Postfix(__instance);
+        static void Postfix(StageResults __instance)
+        {
+            StageResults_UpdateStageResults_Patch.Postfix(__instance);
+        }
     }
 
     // fixes spacing in event results leaderboards
@@ -217,107 +220,117 @@ namespace RealCarNames.Patches
         }
     }
 
-    // fixes spacing in end of season leaderboards
-    [HarmonyPatch(typeof(SeasonStandingsScreen), nameof(SeasonStandingsScreen.Init))]
-    static class SeasonStandingsScreen_Init_Patch
-    {
-        static List<CustomEntry> list;
+    // For some reason all of this doesn't work and I have no idea on how to actually do that :/
 
-        public static void RefreshLeaderboard()
-        {
-            if (list == null)
-                return;
+    //// fixes spacing in end of season leaderboards
+    //[HarmonyPatch(typeof(SeasonStandingsScreen))]
+    //static class SeasonStandingsScreen_Init_Patch
+    //{
+    //    static List<CustomEntry> list;
 
-            Postfix(null);
-        }
+    //    public static void RefreshLeaderboard()
+    //    {
+    //        if (list == null)
+    //            return;
 
-        static void Postfix(SeasonStandingsScreen __instance)
-        {
-            Main.Try(() =>
-            {
-                __instance.StartCoroutine(UpdateWhenReady(__instance.GetComponent<CanvasGroup>(), () =>
-                {
-                    if (__instance != null)
-                    {
-                        list = new List<CustomEntry>();
-                        Transform root = __instance.transform.GetChild(1);
+    //        InitPostfix(null);
+    //    }
 
-                        for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
-                            list.Add(new CustomEntry(root.GetChild(i)));
-                    }
+    //    [HarmonyPatch(nameof(SeasonStandingsScreen.Init))]
+    //    [HarmonyPostfix]
+    //    static void InitPostfix(SeasonStandingsScreen __instance)
+    //    {
+    //        if (!Main.enabled)
+    //            return;
 
-                    if (list == null || list.Count == 0)
-                    {
-                        Main.Log("Don't have list");
-                        return;
-                    }
+    //        if (__instance == null)
+    //            return;
 
-                    if (Main.enabled)
-                    {
-                        float maxNameWidth = 0;
-                        float maxCarWidth = 0;
+    //        Main.Try(() =>
+    //        {
+    //            __instance.StartCoroutine(UpdateWhenReady(
+    //                __instance.GetComponent<CanvasGroup>(),
+    //                () => SetupLeaderboard(__instance)
+    //            ));
+    //        });
+    //    }
 
-                        list.ForEach(entry =>
-                        {
-                            maxNameWidth = Mathf.Max(maxNameWidth, entry.GetPreferedNameWidth());
-                            maxCarWidth = Mathf.Max(maxCarWidth, entry.GetPreferedCarWidth());
-                        });
+    //    static float maxNameWidth = 0;
+    //    static float maxCarWidth = 0;
 
-                        list.ForEach(entry => entry.FitNameAndCar(maxNameWidth, maxCarWidth));
-                    }
-                    else
-                        list.ForEach(entry => entry.FitNameAndCar(entry.originalNameSize, entry.originalCarSize));
-                }));
-            });
-        }
+    //    public static void SetupLeaderboard(SeasonStandingsScreen __instance)
+    //    {
+    //        if (list == null || list.Count == 0 || list[0] == null)
+    //        {
+    //            list = new List<CustomEntry>();
+    //            Transform root = __instance.transform.GetChild(1);
 
-        static IEnumerator UpdateWhenReady(CanvasGroup obj, Action callback)
-        {
-            yield return new WaitUntil(() => obj.alpha > 0);
-            callback?.Invoke();
-        }
+    //            if (root.childCount == 0)
+    //            {
+    //                Main.Log("Don't have list");
+    //                return;
+    //            }
 
-        // thanks devs for making your class internal....now I have to do the work twice...
-        // At least I get to make it clean
-        class CustomEntry
-        {
-            const float BASE_SPACING = 12;
+    //            for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
+    //                list.Add(new CustomEntry(root.GetChild(i)));
 
-            public float originalNameSize;
-            public float originalCarSize;
+    //            list.ForEach(entry =>
+    //            {
+    //                maxNameWidth = Mathf.Max(maxNameWidth, entry.GetPreferedNameWidth());
+    //                maxCarWidth = Mathf.Max(maxCarWidth, entry.GetPreferedCarWidth());
+    //            });
+    //        }
 
-            Transform root;
+    //        list.ForEach(entry => entry.FitNameAndCar(maxNameWidth, maxCarWidth));
+    //    }
 
-            public CustomEntry(Transform root)
-            {
-                this.root = root;
+    //    public static IEnumerator UpdateWhenReady(CanvasGroup obj, Action callback)
+    //    {
+    //        yield return new WaitUntil(() => obj.alpha > 0);
+    //        callback?.Invoke();
+    //    }
+    //}
 
-                originalNameSize = root.GetChild(2).GetComponent<RectTransform>().sizeDelta.x;
-                originalCarSize = root.GetChild(3).GetComponent<RectTransform>().sizeDelta.x;
-            }
+    //// thanks devs for making your class internal....now I have to do the work twice...
+    //// At least I get to make it clean
+    //class CustomEntry
+    //{
+    //    const float BASE_SPACING = 12;
 
-            public float GetPreferedNameWidth() => LayoutUtility.GetPreferredWidth(root.GetChild(2).GetComponent<RectTransform>());
-            public float GetPreferedCarWidth() => LayoutUtility.GetPreferredWidth(root.GetChild(3).GetComponent<RectTransform>());
+    //    public float originalNameSize;
+    //    public float originalCarSize;
 
-            public void FitNameAndCar(float nameSize, float carSize)
-            {
-                RectTransform startRect = root.GetChild(1).GetComponent<RectTransform>();
-                Vector3 startPos = startRect.position + (startRect.sizeDelta.x / 2 + BASE_SPACING) * Vector3.right;
-                float spacing = BASE_SPACING + Main.settings.extraLeaderboardSpacing;
+    //    Transform root;
 
-                // start at Name (index 2)
-                for (int i = 2; i < root.childCount; i++)
-                {
-                    RectTransform current = root.GetChild(i).GetComponent<RectTransform>();
+    //    public CustomEntry(Transform root)
+    //    {
+    //        this.root = root;
 
-                    // adjust size of 2 and 3 (Name and Car)
-                    if (i < 4)
-                        current.SetSizeWithCurrentAnchors(Axis.Horizontal, i == 2 ? nameSize : carSize);
+    //        originalNameSize = root.GetChild(2).GetComponent<RectTransform>().sizeDelta.x;
+    //        originalCarSize = root.GetChild(3).GetComponent<RectTransform>().sizeDelta.x;
+    //    }
 
-                    current.position = startPos + (current.sizeDelta.x / 2) * Vector3.right;
-                    startPos += (spacing + current.sizeDelta.x) * Vector3.right;
-                }
-            }
-        }
-    }
+    //    public float GetPreferedNameWidth() => LayoutUtility.GetPreferredWidth(root.GetChild(2).GetComponent<RectTransform>());
+    //    public float GetPreferedCarWidth() => LayoutUtility.GetPreferredWidth(root.GetChild(3).GetComponent<RectTransform>());
+
+    //    public void FitNameAndCar(float nameSize, float carSize)
+    //    {
+    //        RectTransform startRect = root.GetChild(1).GetComponent<RectTransform>();
+    //        Vector3 startPos = startRect.position + (startRect.sizeDelta.x / 2 + BASE_SPACING) * Vector3.right;
+    //        float spacing = BASE_SPACING + Main.settings.extraLeaderboardSpacing;
+
+    //        // start at Name (index 2)
+    //        for (int i = 2; i < root.childCount; i++)
+    //        {
+    //            RectTransform current = root.GetChild(i).GetComponent<RectTransform>();
+
+    //            // adjust size of 2 and 3 (Name and Car)
+    //            if (i < 4)
+    //                current.SetSizeWithCurrentAnchors(Axis.Horizontal, i == 2 ? nameSize : carSize);
+
+    //            current.position = startPos + (current.sizeDelta.x / 2) * Vector3.right;
+    //            startPos += (spacing + current.sizeDelta.x) * Vector3.right;
+    //        }
+    //    }
+    //}
 }
