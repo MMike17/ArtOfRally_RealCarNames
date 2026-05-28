@@ -220,117 +220,106 @@ namespace RealCarNames.Patches
         }
     }
 
-    // For some reason all of this doesn't work and I have no idea on how to actually do that :/
+    // fixes spacing in end of season leaderboards
+    [HarmonyPatch(typeof(SeasonStandingsScreen))]
+    static class SeasonStandingsScreen_Init_Patch
+    {
+        static List<CustomEntry> list;
 
-    //// fixes spacing in end of season leaderboards
-    //[HarmonyPatch(typeof(SeasonStandingsScreen))]
-    //static class SeasonStandingsScreen_Init_Patch
-    //{
-    //    static List<CustomEntry> list;
+        public static void RefreshLeaderboard()
+        {
+            if (list == null)
+                return;
 
-    //    public static void RefreshLeaderboard()
-    //    {
-    //        if (list == null)
-    //            return;
+            InitPostfix(null);
+        }
 
-    //        InitPostfix(null);
-    //    }
+        [HarmonyPatch(nameof(SeasonStandingsScreen.Refresh))]
+        [HarmonyPostfix]
+        static void InitPostfix(SeasonStandingsScreen __instance)
+        {
+            if (!Main.enabled)
+                return;
 
-    //    [HarmonyPatch(nameof(SeasonStandingsScreen.Init))]
-    //    [HarmonyPostfix]
-    //    static void InitPostfix(SeasonStandingsScreen __instance)
-    //    {
-    //        if (!Main.enabled)
-    //            return;
+            if (__instance == null && list == null)
+                return;
 
-    //        if (__instance == null)
-    //            return;
+            Main.Try(() =>
+            {
+                list = new List<CustomEntry>();
+                Transform root = __instance.transform.GetChild(0);
+                float sideSpacing = root.position.x / 6;
 
-    //        Main.Try(() =>
-    //        {
-    //            __instance.StartCoroutine(UpdateWhenReady(
-    //                __instance.GetComponent<CanvasGroup>(),
-    //                () => SetupLeaderboard(__instance)
-    //            ));
-    //        });
-    //    }
+                root = __instance.transform.GetChild(1);
+                root.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+                root.GetComponent<VerticalLayoutGroup>().childAlignment = TextAnchor.UpperLeft;
+                root.position = new Vector3(root.position.x + sideSpacing, root.position.y, root.position.z);
 
-    //    static float maxNameWidth = 0;
-    //    static float maxCarWidth = 0;
+                if (root.childCount == 0)
+                {
+                    Main.Log("Don't have list");
+                    return;
+                }
 
-    //    public static void SetupLeaderboard(SeasonStandingsScreen __instance)
-    //    {
-    //        if (list == null || list.Count == 0 || list[0] == null)
-    //        {
-    //            list = new List<CustomEntry>();
-    //            Transform root = __instance.transform.GetChild(1);
+                for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
+                    list.Add(new CustomEntry(root.GetChild(i)));
 
-    //            if (root.childCount == 0)
-    //            {
-    //                Main.Log("Don't have list");
-    //                return;
-    //            }
+                __instance.StartCoroutine(UpdateWhenReady(
+                    () => Main.Try(() =>
+                    {
+                        float[] widths = new float[4];
 
-    //            for (int i = 0; i < RallyData.NUM_AI_DRIVERS; i++)
-    //                list.Add(new CustomEntry(root.GetChild(i)));
+                        list.ForEach(item =>
+                        {
+                            widths[0] = Mathf.Max(widths[0], item.GetPreferedWidth(0));
+                            widths[1] = Mathf.Max(widths[1], item.GetPreferedWidth(2));
+                            widths[2] = Mathf.Max(widths[2], item.GetPreferedWidth(3));
+                            widths[3] = Mathf.Max(widths[3], item.GetPreferedWidth(4));
+                        });
 
-    //            list.ForEach(entry =>
-    //            {
-    //                maxNameWidth = Mathf.Max(maxNameWidth, entry.GetPreferedNameWidth());
-    //                maxCarWidth = Mathf.Max(maxCarWidth, entry.GetPreferedCarWidth());
-    //            });
-    //        }
+                        list.ForEach(item => item.FitNameAndCar(widths));
+                    })
+                ));
+            });
+        }
 
-    //        list.ForEach(entry => entry.FitNameAndCar(maxNameWidth, maxCarWidth));
-    //    }
+        public static IEnumerator UpdateWhenReady(Action callback)
+        {
+            yield return null;
+            callback?.Invoke();
+        }
+    }
 
-    //    public static IEnumerator UpdateWhenReady(CanvasGroup obj, Action callback)
-    //    {
-    //        yield return new WaitUntil(() => obj.alpha > 0);
-    //        callback?.Invoke();
-    //    }
-    //}
+    // thanks devs for making your class internal....now I have to do the work twice...
+    // At least I get to make it clean
+    class CustomEntry
+    {
+        Transform root;
+        HorizontalLayoutGroup group;
 
-    //// thanks devs for making your class internal....now I have to do the work twice...
-    //// At least I get to make it clean
-    //class CustomEntry
-    //{
-    //    const float BASE_SPACING = 12;
+        public CustomEntry(Transform root)
+        {
+            this.root = root;
 
-    //    public float originalNameSize;
-    //    public float originalCarSize;
+            group = root.gameObject.AddComponent<HorizontalLayoutGroup>();
+            group.childForceExpandHeight = group.childForceExpandWidth = true;
+            group.childControlWidth = group.childControlHeight = false;
+            group.spacing = Main.settings.extraLeaderboardSpacing;
 
-    //    Transform root;
+            root.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-    //    public CustomEntry(Transform root)
-    //    {
-    //        this.root = root;
+            foreach (Transform child in root)
+                child.gameObject.AddComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        }
 
-    //        originalNameSize = root.GetChild(2).GetComponent<RectTransform>().sizeDelta.x;
-    //        originalCarSize = root.GetChild(3).GetComponent<RectTransform>().sizeDelta.x;
-    //    }
+        public float GetPreferedWidth(int index) => LayoutUtility.GetPreferredWidth(root.GetChild(index).GetComponent<RectTransform>());
 
-    //    public float GetPreferedNameWidth() => LayoutUtility.GetPreferredWidth(root.GetChild(2).GetComponent<RectTransform>());
-    //    public float GetPreferedCarWidth() => LayoutUtility.GetPreferredWidth(root.GetChild(3).GetComponent<RectTransform>());
-
-    //    public void FitNameAndCar(float nameSize, float carSize)
-    //    {
-    //        RectTransform startRect = root.GetChild(1).GetComponent<RectTransform>();
-    //        Vector3 startPos = startRect.position + (startRect.sizeDelta.x / 2 + BASE_SPACING) * Vector3.right;
-    //        float spacing = BASE_SPACING + Main.settings.extraLeaderboardSpacing;
-
-    //        // start at Name (index 2)
-    //        for (int i = 2; i < root.childCount; i++)
-    //        {
-    //            RectTransform current = root.GetChild(i).GetComponent<RectTransform>();
-
-    //            // adjust size of 2 and 3 (Name and Car)
-    //            if (i < 4)
-    //                current.SetSizeWithCurrentAnchors(Axis.Horizontal, i == 2 ? nameSize : carSize);
-
-    //            current.position = startPos + (current.sizeDelta.x / 2) * Vector3.right;
-    //            startPos += (spacing + current.sizeDelta.x) * Vector3.right;
-    //        }
-    //    }
-    //}
+        public void FitNameAndCar(float[] sizes)
+        {
+            root.GetChild(0).gameObject.AddComponent<LayoutElement>().minWidth = sizes[0];
+            root.GetChild(2).gameObject.AddComponent<LayoutElement>().minWidth = sizes[1];
+            root.GetChild(3).gameObject.AddComponent<LayoutElement>().minWidth = sizes[2];
+            root.GetChild(4).gameObject.AddComponent<LayoutElement>().minWidth = sizes[3];
+        }
+    }
 }
